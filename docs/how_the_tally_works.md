@@ -120,3 +120,10 @@ pprint_interval_data(tally)
 The figures on this page are made with `docs/make_tally_figures.py`
 (requires MuseScore 4). Change `SCORE`, `MN` and `SLICE` there to look at
 another measure.
+
+---
+
+The music examples on this page are made from `scores_xml/BWV_0852.xml`.
+Quelle: www.tobis-notenarchiv.de (Tobias Schölkopf), corrected version.
+Licence of the music examples: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+(see [Sources and licences](../README.md#sources-and-licences)).

@@ -19,12 +19,48 @@ tells us which ones a tuning should favour.
 
 | File | Contents |
 |---|---|
-| `scores_xml/` | The 48 preludes and fugues as MusicXML files, named by BWV number (`BWV_0846.xml` = Book I, C major … `BWV_0893.xml` = Book II, B minor). Each file holds one prelude–fugue pair. |
+| `scores_xml/` | The 48 preludes and fugues as MusicXML files, named by BWV number (`BWV_0846.xml` = Book I, C major … `BWV_0893.xml` = Book II, B minor). Each file holds one prelude–fugue pair. Corrected versions of the files of Tobis Notenarchiv (see [Sources and licences](#sources-and-licences)). |
+| `scores_pdf/` | The same 48 files as PDF, with a bar number at every bar (see [The scores as PDF](#the-scores-as-pdf)). |
 | `temperament_functions.py` | The functions that parse the scores, count the intervals and print the results. |
 | `intervals-tally.ipynb` | Notebook that runs the analysis on all 48 files and prints the result. |
 | `wtc_frequencies.json` | The output of the notebook (see below). |
+| `docs/how_the_tally_works.md` | A step-by-step example of the counting for one measure, with figures. |
+
+## The scores as PDF
+
+`scores_pdf/` contains a PDF of every MusicXML file (`BWV_0846.pdf` …
+`BWV_0893.pdf`), so you can see exactly the notes that the analysis counts. The foot of
+the first page gives the source and the licence of the scores.
+Every bar has its bar number. These are the numbers music21 uses
+(`Measure.number`), so `score.measures(14, 14)` in Python is bar 14 in the PDF.
+As in the MusicXML files, the prelude and the fugue are numbered as one
+piece: in `BWV_0846.pdf` the fugue starts at bar 36.
+
+A few things to know:
+
+- A pickup bar has number 0 (e.g. BWV 860, BWV 881).
+- Where the file splits a bar (e.g. around a repeat sign), the number occurs
+  twice: BWV 881 has two bars 28, and BWV 887 has two bars 37 (and no bar 38).
+- In BWV 874, bar 28, one triplet sixteenth rest is missing from the PDF:
+  MuseScore crashes on the original notation there. The notes are complete.
+
+The PDFs are made with MuseScore 4 by `scores_pdf/make_score_pdfs.py`:
+
+```
+python scores_pdf/make_score_pdfs.py            # all files
+python scores_pdf/make_score_pdfs.py BWV_0846   # only some files
+```
+
+For comparison with a printed edition, the Bach-Gesellschaft edition of both
+books (volume 14, 1866) is freely available from the
+[Internet Archive](https://archive.org/details/bach-gesellschaft-ausgabe)
+(file `BGA Band 14.pdf`). Its bar numbers and details may differ from the
+MusicXML files.
 
 ## How the counting works
+
+For a worked example with music notation, see
+[How the tally works](docs/how_the_tally_works.md).
 
 ### How an interval is represented
 
@@ -105,3 +141,31 @@ jupyter notebook intervals-tally.ipynb
 ```
 
 Parsing and chordifying all 48 files takes a few minutes.
+
+## Sources and licences
+
+**Quelle: www.tobis-notenarchiv.de**
+
+The MusicXML files in `scores_xml/` are based on the MusicXML files of the
+Well-Tempered Clavier by Tobias Schölkopf, from the
+[Tobis Notenarchiv](https://tobis-notenarchiv.de/wp/)
+([Book I](https://tobis-notenarchiv.de/wp/bach-archiv/instrumentalwerke/werke-fuer-klavier/das-wohltemperierte-klavier-teil-1/),
+[Book II](https://tobis-notenarchiv.de/wp/bach-archiv/instrumentalwerke/werke-fuer-klavier/das-wohltemperierte-klavier-teil-2/)).
+The files in this repository have been corrected, so they are not identical
+to the originals.
+
+The original files are published under the licence
+[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+(Attribution – NonCommercial – ShareAlike;
+[terms of use of the archive](https://tobis-notenarchiv.de/wp/urheberrecht-und-nutzungsbeschraenkungen/)).
+Therefore:
+
+- the MusicXML files in `scores_xml/`, the PDFs made from them in
+  `scores_pdf/`, and the music examples in `docs/img/` are licensed under
+  **CC BY-NC-SA 4.0** (see `scores_xml/LICENSE` and `scores_pdf/LICENSE`).
+  You may share and adapt them for non-commercial purposes, if you name the source
+  („Quelle: www.tobis-notenarchiv.de"), state any changes, and share your
+  adaptations under the same licence;
+- the code and the other documentation in this repository, including
+  `scores_pdf/make_score_pdfs.py` and `docs/make_tally_figures.py`, are
+  licensed under the **MIT License** (see `LICENSE`). The MIT License does not apply to the scores.
